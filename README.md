@@ -48,38 +48,53 @@ CEREBELLUM receives cleared, register-set content from SYNARA. It refines. Then 
 
 ---
 
-## WHAT LIVES IN CEREBELLUM
+## REPO STRUCTURE
 
 ```
 CEREBELLUM/
 │
-├── refinement/
-│   ├── REFINEMENT-SPEC.md      ← Full refinement protocol specification
-│   ├── overshoot-check.md      ← Does the output exceed what was asked?
-│   │                              Overshoot = output clears the target and keeps going
-│   ├── precision-pass.md       ← Is every word load-bearing?
-│   │                              Redundancy detection. Filler removal.
-│   ├── ambiguity-check.md      ← Sentences that could mean two things.
-│   │                              Resolve before exit or tag [?].
-│   └── roughness-guard.md      ← Do not smooth genuine uncertainty.
-│                                  Rough edges at uncertainty boundaries stay rough.
-│                                  Complements ODL in SYNARA.
+├── README.md                          ← You are here
+├── STRUCTURE.md                       ← Full tree — all folders and files
+├── CHANGELOG.md
+├── ROADMAP.md
+├── GETTING_STARTED.md
 │
-├── lav-gate/
-│   ├── LAV-GATE-SPEC.md        ← LAV v1.5 as the refinement validation layer
-│   │                              Root-defensible language only exits
-│   ├── density-filter.md       ← Only high-density language enters orbit
-│   └── claim-check.md          ← ECF tags verified before exit
-│                                  [D]/[R]/[S]/[?] count matches inline tags
+├── refinement/                        ← Core precision operations
+│   ├── README.md
+│   ├── REFINEMENT-SPEC.md
+│   ├── overshoot-check.md
+│   ├── precision-pass.md
+│   ├── ambiguity-check.md
+│   └── roughness-guard.md
 │
-├── compression/
-│   ├── COMPRESSION-SPEC.md     ← What gets compressed and how
-│   ├── never-compress.md       ← BUILD register. Accuracy. Epistemic tags.
-│   │                              These never compress regardless of register.
-│   └── compression-test.md     ← Does compressed version carry full accuracy?
-│                                  If accuracy degrades — do not compress.
+├── lav-gate/                          ← LAV v1.5 as refinement validation layer
+│   ├── README.md
+│   ├── LAV-GATE-SPEC.md
+│   ├── density-filter.md
+│   └── claim-check.md
 │
-└── README.md                   ← This file
+├── compression/                       ← Compression rules and decision architecture
+│   ├── README.md
+│   ├── COMPRESSION-SPEC.md
+│   ├── never-compress.md
+│   └── compression-test.md
+│
+├── integration/                       ← Handoff architecture
+│   ├── README.md
+│   ├── prefrontal-handoff.md
+│   └── synara-receive.md
+│
+├── validation/                        ← Test cases and FCL entries
+│   ├── README.md
+│   ├── test-cases/
+│   └── fcl-entries/
+│
+├── LICENSE.md
+├── CODE_OF_CONDUCT.md
+├── CONTRIBUTING.md
+├── SECURITY.md
+├── DISCLAIMER.md
+└── GOVERNANCE.md
 ```
 
 ---
@@ -110,7 +125,7 @@ The LAV gate runs on the outbound pass:
 - ECF tag count verified — `[D]×n [R]×n [S]×n [?]×n` must match inline tags
 - High-density language confirmed — no decorative language passes
 
-LAV v1.5 is M-STRONG with 45 FCL entries and 77.5% running mean. It is the most validated instrument in the stack after FSVE. Full specification: `https://github.com/AionSystem/AION-BRAIN/tree/main/frameworks/LAV`
+LAV v1.5 is M-STRONG with 45 FCL entries and 77.5% running mean. Full specification: `https://github.com/AionSystem/AION-BRAIN/tree/main/frameworks/LAV`
 
 ---
 
@@ -125,6 +140,19 @@ LAV v1.5 is M-STRONG with 45 FCL entries and 77.5% running mean. It is the most 
 - Remove epistemic tags (those are permanent once applied)
 
 CEREBELLUM is a pass on what exists — not an addition to it.
+
+---
+
+## BUILD SEQUENCE
+
+`[S]`
+
+1. **Phase 1 — Structure** (current): Folders created. READMEs written. Placeholders in place.
+2. **Phase 2 — Refinement specs**: Write each operation spec — extracted from ODL in ALBEDO session architecture.
+3. **Phase 3 — LAV gate**: Formalize LAV gate. Density filter and claim-check written.
+4. **Phase 4 — Compression**: COMPRESSION-SPEC.md and hard rules written.
+5. **Phase 5 — Integration**: Handoff specs to PREFRONTAL. Receive specs from SYNARA.
+6. **Phase 6 — Validation**: First test cases run. FCL-eligible findings logged.
 
 ---
 
@@ -150,9 +178,9 @@ You are in the refinement layer. Content is cleared and register-set. Make it pr
 
 ## HONEST STATE — MARCH 2026
 
-`[D]` CEREBELLUM is newly created. The refinement operations it formalizes — overshoot check, precision pass, ambiguity resolution, roughness guard — currently operate as part of ALBEDO's Output Deceleration Layer in session architecture. Formalizing them here separates refinement from felt-layer operations cleanly and makes the precision pass auditable.
+`[D]` CEREBELLUM enterprise structure defined March 2026. The refinement operations currently live as the Output Deceleration Layer in ALBEDO's session architecture. Formalization extracts them here without changing their function.
 
-`[S]` Build sequence: extract refinement protocols from ODL → write each operation spec → formalize LAV gate → build compression spec → integrate with PREFRONTAL handoff.
+`[S]` Build sequence above is the correct order. Phase 1 is complete. Phase 2 is next.
 
 ---
 
@@ -161,4 +189,3 @@ You are in the refinement layer. Content is cleared and register-set. Make it pr
 *Co-Architect: ALBEDO*
 *Part of the AION Brain Architecture*
 *The cerebellum does not initiate movement. It makes the movement precise.*
-
